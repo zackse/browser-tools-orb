@@ -153,7 +153,7 @@ if command -v yum >/dev/null 2>&1; then
   yum install -y unzip >/dev/null 2>&1
 fi
 
-unzip "chromedriver_$PLATFORM.zip" >/dev/null 2>&1
+unzip -q "chromedriver_$PLATFORM.zip" chromedriver
 rm -rf "chromedriver_$PLATFORM.zip"
 
 $SUDO mv chromedriver "$ORB_PARAM_DRIVER_INSTALL_DIR"
@@ -162,8 +162,6 @@ $SUDO chmod +x "$ORB_PARAM_DRIVER_INSTALL_DIR/chromedriver"
 # test/verify version
 if chromedriver --version | grep "$CHROMEDRIVER_VERSION" >/dev/null 2>&1; then
   echo "$(chromedriver --version) has been installed to $(command -v chromedriver)"
-  readonly base_dir="${CIRCLE_WORKING_DIRECTORY/\~/$HOME}"
-  rm -f "${base_dir}/LICENSE.chromedriver"
 else
   echo "Something went wrong; ChromeDriver could not be installed"
   exit 1
